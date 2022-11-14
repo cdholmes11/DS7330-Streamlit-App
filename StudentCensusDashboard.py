@@ -23,6 +23,7 @@ def init_connection():
 
 mydb = init_connection()
 
+@st.experimental_memo(ttl=60)
 def load_data(query):
     student_body = pd.read_sql(query,mydb)
     return student_body
