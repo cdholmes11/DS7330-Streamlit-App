@@ -61,13 +61,13 @@ month_order = ['January', 'February', 'March', 'April', 'May', 'June', 'July', '
 age_order = pd.unique(df['AgeSurveyed'])
 age_order.sort()
 
+student_df2 = student_df
 
 # Dashboard Layout
 # Title
 st.title("Student Census Data")
 
-student_df2 = student_df
-
+# Sidebar
 with st.sidebar:
     st.write("Filters")
     month_filter = st.multiselect("Birth Month", month_order, default=month_order)
@@ -76,7 +76,9 @@ with st.sidebar:
     age_filter = st.select_slider("Age Range",options=age_order, value=(min(student_df2['AgeSurveyed']),max(student_df2['AgeSurveyed'])))
     student_df2 = student_df2[student_df2["AgeSurveyed"].between(min(age_filter), max(age_filter))]
 
+# Body
 co11, col2 = st.columns(2)
+
 # Histogram of Height
 with co11:
     fig = px.histogram(student_df2, x="Height", color="Gender", marginal="rug")
