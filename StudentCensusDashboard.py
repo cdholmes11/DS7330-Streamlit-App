@@ -23,12 +23,12 @@ def init_connection():
 
 mydb = init_connection()
 
-@st.experimental_memo(ttl=60)
+@st.experimental_memo(ttl=60000)
 def load_data(query):
-    student_body = pd.read_sql(query,mydb)
-    return student_body
+    df = pd.read_sql(query,mydb)
+    return df
 
-df = load_data("""
+student_df = load_data("""
         select
             *
         from StudentDemographics
@@ -66,36 +66,36 @@ age_order.sort()
 # Title
 st.title("Student Census Data")
 
-df1 = df
+student_df2 = student_df
 
 with st.sidebar:
     st.write("Filters")
     month_filter = st.multiselect("Birth Month", month_order, default=month_order)
-    df1 = df1[df1["BirthMonth"].isin(month_filter)]
+    student_df2 = student_df2[student_df2["BirthMonth"].isin(month_filter)]
 
-    age_filter = st.select_slider("Age Range",options=age_order, value=(min(df1['AgeSurveyed']),max(df1['AgeSurveyed'])))
-    df1 = df1[df1["AgeSurveyed"].between(min(age_filter), max(age_filter))]
+    age_filter = st.select_slider("Age Range",options=age_order, value=(min(student_df2['AgeSurveyed']),max(student_df2['AgeSurveyed'])))
+    student_df2 = student_df2[student_df2["AgeSurveyed"].between(min(age_filter), max(age_filter))]
 
 co11, col2 = st.columns(2)
 # Histogram of Height
 with co11:
-    fig = px.histogram(df1, x="Height", color="Gender", marginal="rug")
+    fig = px.histogram(student_df2, x="Height", color="Gender", marginal="rug")
     st.markdown("Histogram - Height by Gender")
     st.plotly_chart(fig, use_container_width=True)
 # Scatter plot Time w/ Family vs. Time Gaming
 with col2:
-    fig2 = px.scatter(df1, x="HrsSpentWithFamily", y="HrsGames", color="Gender")
+    fig2 = px.scatter(student_df2, x="HrsSpentWithFamily", y="HrsGames", color="Gender")
     st.markdown("Scatter plot - Hours with Family vs Hours Gaming")
     st.plotly_chart(fig2, use_container_width=True)
 
 col3, col4  = st.columns(2)
 
 with col3:
-    fig3 = px.parallel_categories(df1, dimensions=['Gender','BirthMonth'],color="AgeSurveyed", color_continuous_scale=px.colors.sequential.Inferno)
+    fig3 = px.parallel_categories(student_df2, dimensions=['Gender','BirthMonth'],color="AgeSurveyed", color_continuous_scale=px.colors.sequential.Inferno)
     st.markdown("Parallel Categories - Gender, Birth Month")
     st.plotly_chart(fig3, use_container_width=True)
 
 with col4:
-    fig4 = px.scatter(df1, x="YearSurveyed", y="Armspan", size="HrsChores", log_x=True, size_max=60)
+    fig4 = px.scatter(student_df2, x="YearSurveyed", y="Armspan", size="HrsChores", log_x=True, size_max=60)
     st.markdown("Bubble Plot - Armspan vs Chores by YearSurveyed")
     st.plotly_chart(fig4, use_container_width=True)
