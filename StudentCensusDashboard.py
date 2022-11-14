@@ -23,9 +23,6 @@ def init_connection():
 
 mydb = init_connection()
 
-# Perform query.
-# Uses st.experimental_memo to only rerun when the query changes or after 10 min.
-@st.experimental_memo(ttl=60)
 def load_data():
     query = """
         select
