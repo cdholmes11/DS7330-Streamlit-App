@@ -9,7 +9,7 @@ st.set_option('deprecation.showPyplotGlobalUse', False)
 pd.set_option('display.max_columns', None)
 pd.set_option('display.max_rows', 100)
 
-
+# Page Setup
 st.set_page_config(
     page_title="DS7330 Final Project",
     layout="wide",
