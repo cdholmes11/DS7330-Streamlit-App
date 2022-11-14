@@ -21,11 +21,12 @@ st.set_page_config(
 def init_connection():
     return connection.connect(**st.secrets["mysql"])
 
+mydb = init_connection()
+
 # Perform query.
 # Uses st.experimental_memo to only rerun when the query changes or after 10 min.
 @st.experimental_memo(ttl=60)
 def load_data():
-    mydb = init_connection()
     query = """
         select
             *
