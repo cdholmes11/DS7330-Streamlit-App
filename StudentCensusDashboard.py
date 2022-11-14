@@ -79,6 +79,8 @@ with st.sidebar:
 
 # Body
 co11, col2 = st.columns(2)
+col3, col4  = st.columns(2)
+col5, col6= st.columns(2)
 
 # Histogram of Height
 with co11:
@@ -91,14 +93,25 @@ with col2:
     st.markdown("Scatter plot - Hours with Family vs Hours Gaming")
     st.plotly_chart(fig2, use_container_width=True)
 
-col3, col4  = st.columns(2)
-
+# Parallel Categories - Gender and Birth Month
 with col3:
     fig3 = px.parallel_categories(student_df2, dimensions=['Gender','BirthMonth'],color="AgeSurveyed", color_continuous_scale=px.colors.sequential.Inferno)
     st.markdown("Parallel Categories - Gender, Birth Month")
     st.plotly_chart(fig3, use_container_width=True)
-
+# Bubble Plot - Armspan vs. Chore Hours by Year
 with col4:
     fig4 = px.scatter(student_df2, x="YearSurveyed", y="Armspan", size="HrsChores", log_x=True, size_max=60)
     st.markdown("Bubble Plot - Armspan vs Chores by YearSurveyed")
     st.plotly_chart(fig4, use_container_width=True)
+
+# Bar Plot - Social Media Hours by Gender
+with col5:
+    fig5 = px.bar(student_df2, x="YearSurveyed", y="HrsSocialMedia",color="Gender",barmode ="group")
+    st.markdown("Social Media hrs by Gender")
+    st.plotly_chart(fig5,use_container_width=True)
+
+# Bar Plot - Memory Game Score vs. Academic Pressure by Gender
+with col6:
+    fig6 = px.bar(student_df2, x="MemoryGameScore", y="AcademicPressure",color="Gender",barmode ="group")
+    st.markdown("Academic Pressure and MemoryGameScore")
+    st.plotly_chart(fig6,use_container_width=True)
