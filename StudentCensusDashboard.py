@@ -23,8 +23,11 @@ def init_connection():
 
 mydb = init_connection()
 
-def load_data():
-    query = """
+def load_data(query):
+    student_body = pd.read_sql(query,mydb)
+    return student_body
+
+df = load_data("""
         select
             *
         from StudentDemographics
@@ -43,13 +46,7 @@ def load_data():
 
         left join WorldIssues
         on WorldIssues.StudentDemographics_StudentID = StudentDemographics.StudentID;
-    """
-    student_body = pd.read_sql(query,mydb)
-
-    mydb.close() #close the connection
-    return student_body
-
-df = load_data()
+    """)
 
 # Show variables and data types
 # df.dtypes
