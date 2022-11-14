@@ -58,7 +58,7 @@ student_df = load_data("""
 
 # Filter Variables
 month_order = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
-age_order = pd.unique(df['AgeSurveyed'])
+age_order = pd.unique(student_df['AgeSurveyed'])
 age_order.sort()
 
 student_df2 = student_df
