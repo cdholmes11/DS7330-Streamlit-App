@@ -24,7 +24,7 @@ def init_connection():
 mydb = init_connection()
 
 # Refresh every 1000 minutes or when query changes.
-@st.experimental_memo(ttl=60000)
+# @st.experimental_memo(ttl=60000)
 def load_data(query):
     df = pd.read_sql(query,mydb)
     return df
